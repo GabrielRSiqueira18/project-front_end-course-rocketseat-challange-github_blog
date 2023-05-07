@@ -7,7 +7,6 @@ export const ProfileCardContainer = styled.div`
   display: flex;
   gap: 2rem;
   border-radius: 10px;
-
   transform: translateY(-50%);
 
   @media screen and (max-width: 1024px) {
