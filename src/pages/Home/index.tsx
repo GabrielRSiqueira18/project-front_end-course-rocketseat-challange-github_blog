@@ -29,7 +29,7 @@ export function Home() {
 
   function handleSubmitSearchQuery(data: SearchIssueFormInputs) {
     fetchSearchGithubIssues(data.query)
-    reset()
+  reset()
   }
 
   const { githubIssues } = useContext(GithubReposContext)
