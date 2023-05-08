@@ -1,5 +1,5 @@
 import { ProfileCard } from "./components/ProfileCard";
-import { Form, FormContainer, GithubCardsIssuesWrapper, HomeContainer, SingleGithubCardsIssuesContainer, TitleContentWrapper } from "./styles";
+import { Footer, Form, FormContainer, GithubCardsIssuesWrapper, HomeContainer, SingleGithubCardsIssuesContainer, TitleContentWrapper } from "./styles";
 import { useContext } from "react";
 import { GithubReposContext } from "../../contexts/GithubReposContext";
 import { Link } from "react-router-dom";
@@ -96,6 +96,10 @@ export function Home() {
           )
         })}
       </GithubCardsIssuesWrapper>
+      <Footer>
+        <a target="_blank" href="https://github.com/GabrielRSiqueira18/github-blog-desafio-3">Code in Github</a>
+        <a target="_blank" href="https://github.com/GabrielRSiqueira18">Profile Github</a>
+      </Footer>
     </HomeContainer>
   )
 } 

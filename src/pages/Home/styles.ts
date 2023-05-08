@@ -132,3 +132,23 @@ export const SingleGithubCardsIssuesContainer = styled.div`
     }
   }
 `
+
+export const Footer = styled.footer`
+
+  width: 50%;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: ${props => props.theme["base-post"]};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5rem;
+  gap: 1rem;
+  border-radius: 6px;
+
+  a {
+    &:hover {
+      color: ${props => props.theme["blue"]};
+    }
+  }
+`
