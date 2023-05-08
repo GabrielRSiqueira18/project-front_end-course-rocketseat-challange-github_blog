@@ -8,7 +8,6 @@ import { faUserFriends, faArrowUpRightFromSquare } from "@fortawesome/free-solid
 export function ProfileCard() {
   const { githubRepo } = useContext(GithubReposContext)
 
-  console.log(githubRepo)
   return (
     <ProfileCardContainer>
       <img src={githubRepo.avatar_url} alt="" />

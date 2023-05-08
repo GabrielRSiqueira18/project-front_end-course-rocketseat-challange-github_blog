@@ -1,9 +1,13 @@
-import { Link } from "react-router-dom";
 import { ProfileCard } from "./components/ProfileCard";
-import { SingleGithubCardsIssues } from "./components/SingleGithubCardsIssues";
-import { Form, FormContainer, GithubCardsIssuesWrapper, HomeContainer, TitleContentWrapper } from "./styles";
+import { Form, FormContainer, GithubCardsIssuesWrapper, HomeContainer, SingleGithubCardsIssuesContainer, TitleContentWrapper } from "./styles";
+import { useContext } from "react";
+import { GithubReposContext } from "../../contexts/GithubReposContext";
+import { Link } from "react-router-dom";
+import { formatDate } from "../../utils/formatter";
 
 export function Home() {
+  const { githubIssues } = useContext(GithubReposContext)
+  
   return (
     <HomeContainer>
       <ProfileCard />
@@ -17,18 +21,30 @@ export function Home() {
         </Form>
       </FormContainer>
       <GithubCardsIssuesWrapper>
-        <Link to={"/issues/1"}>
-          <SingleGithubCardsIssues/>
-        </Link>
-        <Link to={"/issues/2"}>
-          <SingleGithubCardsIssues/>
-        </Link>
-        <Link to={"/issues/3"}>
-          <SingleGithubCardsIssues/>
-        </Link>
-        <Link to={"/issues/4"}>
-          <SingleGithubCardsIssues/>
-        </Link>
+        {githubIssues.map(issues => {
+          let date
+          let formattedCreatedAt
+        
+          if(issues.created_at) {
+            date = new Date(issues.created_at)
+          
+            formattedCreatedAt = formatDate(date)
+          }
+
+          return(
+            <Link to={`/issues/${issues.number}`} key={issues.number}>
+              <SingleGithubCardsIssuesContainer>
+                <section>
+                  <h2>{issues.title}</h2>
+                  <span>{formattedCreatedAt}</span>
+                </section>
+                <p>
+                  {issues.body}
+                </p>
+              </SingleGithubCardsIssuesContainer>
+            </Link>
+          )
+        })}
       </GithubCardsIssuesWrapper>
     </HomeContainer>
   )
