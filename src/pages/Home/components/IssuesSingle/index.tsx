@@ -8,8 +8,7 @@ export function IssuesSingle() {
   const params = useParams()
 
   const { id } = params
-  console.log(params)
-
+  
   return (
     <IssuesSingleContainer>
       <TitleContainerIssueSingle>

@@ -1,38 +1,36 @@
 import { ContentWrapper, InformationsAboutMe, ExtrasInformationsBoutMyGithub, ProfileCardContainer, SingleExtrasInformationsGithub } from "./style";
-import me from "../../../../assets/isMe.jpeg"
 import { faGithub  } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBuilding, faUserFriends, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import { GithubReposContext } from "../../../../contexts/GithubReposContext";
 
 export function ProfileCard() {
+  const { githubRepo } = useContext(GithubReposContext)
+
+  console.log(githubRepo)
   return (
     <ProfileCardContainer>
-      <img src={me} alt="" />
+      <img src={githubRepo.avatar_url} alt="" />
       <ContentWrapper>
         <InformationsAboutMe>
-          <h1>Gabriel Ribeiro Siqueira</h1>
-          <p>Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat pulvinar vel mass.</p>
+          <h1>{githubRepo.name}</h1>
+          <p>{githubRepo.bio}</p>
         </InformationsAboutMe>
         <ExtrasInformationsBoutMyGithub>
 
           <SingleExtrasInformationsGithub>
             <FontAwesomeIcon icon={faGithub}/>
-            <p>cameronwll</p>
-          </SingleExtrasInformationsGithub>
-          
-          <SingleExtrasInformationsGithub>
-            <FontAwesomeIcon icon={faBuilding} />
-            <p>Rocketseat</p>
+            <p>{githubRepo.login}</p>
           </SingleExtrasInformationsGithub>
           
           <SingleExtrasInformationsGithub>
             <FontAwesomeIcon icon={faUserFriends}/>
-            <p>32 seguidores</p>
+            <p>{githubRepo.followers} seguidores</p>
           </SingleExtrasInformationsGithub>
         </ExtrasInformationsBoutMyGithub>
       </ContentWrapper>
 
-      <a href="#">
+      <a target="_blank" href={githubRepo.html_url}>
         GITHUB
         <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
       </a>

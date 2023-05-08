@@ -34,7 +34,7 @@ export const ProfileCardContainer = styled.div`
     font-weight: 700;
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
-
+    
     &:hover {
       border-bottom-color: ${props => props.theme.blue};
     }
@@ -84,6 +84,11 @@ export const SingleExtrasInformationsGithub = styled.div`
 
   p {
     color: ${props => props.theme["base-subtitle"]};
+    width: 30rem;
+
+    @media screen and (max-width: 1440px) {
+      width: auto;
+    }
   }
 
   svg {
