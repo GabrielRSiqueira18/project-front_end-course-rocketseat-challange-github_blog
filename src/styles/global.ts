@@ -7,6 +7,11 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  a {
+    text-decoration: none;
+    color: unset;
+  }
+
   :focus {
     outline: 0;
     box-shadow: 0 0 0 2px ${props => props.theme["base-label"]};

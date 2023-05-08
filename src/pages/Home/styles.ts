@@ -62,6 +62,12 @@ export const GithubCardsIssuesWrapper = styled.div`
   gap: 2rem;
   margin-top: 3rem;
 
+  a {
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
   @media screen and (max-width: 1024px) {
     grid-template-columns: 1fr;
   }

@@ -6,14 +6,18 @@ export const SingleGithubCardsIssuesContainer = styled.div`
   padding: 2rem;
   
   background-color: ${props => props.theme["base-post"]};
-  border: 0;
+  border: 2px solid transparent;
   border-radius: 10px;
   cursor: pointer;
 
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  
+
+  &:hover {
+    border-color: ${props => props.theme["base-label"]};
+  }
+
   section {
     display: flex;
     justify-content: space-between;
@@ -26,7 +30,7 @@ export const SingleGithubCardsIssuesContainer = styled.div`
     }
 
     span {
-      color: ${props => props.theme["base-span"]};
+      color: ${props => props.theme["base-span"]} !important;
       font-size: 0.875rem;
     }
   }
