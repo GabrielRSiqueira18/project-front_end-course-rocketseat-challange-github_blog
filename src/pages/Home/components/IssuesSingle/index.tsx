@@ -4,10 +4,11 @@ import { faArrowUpRightFromSquare, faCalendarDay, faChevronLeft, faComment } fro
 import { faGithub  } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react";
-import { apiGithubIssues } from "../../../../lib/axios";
+import { apiGithub } from "../../../../lib/axios";
 import { formatDate } from "../../../../utils/formatter";
 import ReactMarkdown from "react-markdown";
-
+import {dracula} from 'react-syntax-highlighter/dist/esm/styles/prism'
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 
 interface IssuesSingle {
   title: string
@@ -25,7 +26,7 @@ export function IssuesSingle() {
   const [ issueSingleData, setIssueSingleData ] = useState({} as IssuesSingle)
 
   async function fetchIssueSingleData() {
-    const response = await apiGithubIssues.get(`https://api.github.com/repos/GabrielRSiqueira18/github-blog-desafio-3/issues/${id}`)
+    const response = await apiGithub.get(`/repos/GabrielRSiqueira18/github-blog-desafio-3/issues/${id}`)
     
     const { title, body, created_at, html_url, user: { login }, comments } = response.data
     setIssueSingleData({title, body, created_at, html_url,login, comments})
@@ -78,9 +79,27 @@ export function IssuesSingle() {
         </TitleContentIssuesSingle>
       </TitleContainerIssueSingle>
       <IssuesMainContent>
-        <ReactMarkdown>
-          {issueSingleData.body}
-        </ReactMarkdown>
+      <ReactMarkdown
+        children={issueSingleData.body}
+        components={{
+          code({node, inline, className, children, ...props}) {
+            const match = /language-(\w+)/.exec(className || '')
+            return !inline && match ? (
+              <SyntaxHighlighter
+                {...props}
+                children={String(children).replace(/\n$/, '')}
+                style={dracula}
+                language={match[1]}
+                PreTag="div"
+              />
+            ) : (
+              <code {...props} className={className}>
+                {children}
+              </code>
+            )
+          }
+        }}
+      />
       </IssuesMainContent>
     </IssuesSingleContainer>
   )

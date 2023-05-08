@@ -6,8 +6,6 @@ export const IssuesSingleContainer = styled.div`
   max-width: 1440px;
   margin: 0 auto;
   border: 0;
-  transform: translateY(-30%);
-
   display: flex;
   flex-direction: column;
 `

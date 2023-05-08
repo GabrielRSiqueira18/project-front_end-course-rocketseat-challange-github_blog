@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { apiGithubIssues, apiGithubRepos } from "../lib/axios";
+import { apiGithub } from "../lib/axios";
 
 interface GithubReposProviderProps {
   children: ReactNode
@@ -40,6 +40,7 @@ interface githubIssues {
 interface GithubReposContextType {
   githubRepo: GithubRepos
   githubIssues: githubIssues[]
+  fetchSearchGithubIssues: (query?: string) => Promise<void>
  }
 
 
@@ -51,7 +52,7 @@ export function GithubReposProvider({children}: GithubReposProviderProps) {
   const [ githubIssues, setGithubIssues ] = useState<githubIssues[]>([])
 
   async function fetchGithubRepos() {
-    const response = await apiGithubRepos.get("/users/GabrielRSiqueira18")
+    const response = await apiGithub.get("/users/GabrielRSiqueira18")
     const { bio, avatar_url, followers, html_url, name, login } = response.data
     const gitHubInfos = { bio, avatar_url, followers, html_url, name, login}
     
@@ -59,16 +60,38 @@ export function GithubReposProvider({children}: GithubReposProviderProps) {
   }
 
   async function fetchGithubIssues() {
-    const response = await apiGithubIssues.get("/repos/GabrielRSiqueira18/github-blog-desafio-3/issues")
+    const response = await apiGithub.get("/repos/GabrielRSiqueira18/github-blog-desafio-3/issues")
     const formateResponse: githubIssues[] = []
     response.data.forEach((issue: Issues) => {
       const { title, body, comments, html_url, number, url, created_at, user: { login } } = issue
-      const issuesArr = { title, body, comments, html_url, number, url, created_at, login }
-      formateResponse.push(issuesArr)
+      const issuesObject = { title, body, comments, html_url, number, url, created_at, login }
+      formateResponse.push(issuesObject)
       
     })
 
     setGithubIssues(formateResponse)
+   }
+
+   async function fetchSearchGithubIssues(query?: string) {
+      if(query) {
+        const response = await apiGithub.get(`/search/issues`, {
+          params:{
+            q: `${query} in:title repo:GabrielRSiqueira18/github-blog-desafio-3`
+          }
+        })
+        const formateResponse: githubIssues[] = []
+        response.data.items.forEach((issue: Issues) => {
+          const { title, body, comments, html_url, number, url, created_at, user: { login } } = issue
+          const issuesObject = { title, body, comments, html_url, number, url, created_at, login }
+          formateResponse.push(issuesObject)
+      
+        })
+
+        setGithubIssues(formateResponse)
+        
+      } else if(query === '') {
+        fetchGithubIssues()
+      }
    }
 
   useEffect(() => {
@@ -78,7 +101,7 @@ export function GithubReposProvider({children}: GithubReposProviderProps) {
   }, [])
 
   return(
-    <GithubReposContext.Provider value={{ githubRepo, githubIssues }}>
+    <GithubReposContext.Provider value={{ githubRepo, githubIssues, fetchSearchGithubIssues }}>
       {children}
     </GithubReposContext.Provider>
   )

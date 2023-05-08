@@ -1,10 +1,13 @@
 import { styled } from "styled-components";
 
+
 export const HomeContainer = styled.div`
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
   padding: 1.5rem;
+
+
 `
 
 export const FormContainer = styled.div`
@@ -108,12 +111,25 @@ export const SingleGithubCardsIssuesContainer = styled.div`
     }
   }
 
-  p {
-    width: 100%;
+   p, h2, pre {
+    width: auto;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
+
+    @media screen and (max-width: 600px) {
+      width: 25rem;
+
+      h1 {
+        max-width: 1rem !important;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      width: 20rem;
+      height: auto;
+    }
   }
 `
