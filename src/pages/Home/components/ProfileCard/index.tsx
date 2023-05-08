@@ -3,6 +3,7 @@ import { faGithub  } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 import { GithubReposContext } from "../../../../contexts/GithubReposContext";
+import { faUserFriends, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 
 export function ProfileCard() {
   const { githubRepo } = useContext(GithubReposContext)
