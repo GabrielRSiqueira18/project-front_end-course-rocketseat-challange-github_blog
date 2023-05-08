@@ -3,12 +3,47 @@ import { IssuesMainContent, IssuesSingleContainer, MenuTitleIssueSingle, TitleCo
 import { faArrowUpRightFromSquare, faCalendarDay, faChevronLeft, faComment } from "@fortawesome/free-solid-svg-icons"
 import { faGithub  } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useEffect, useState } from "react";
+import { apiGithubIssues } from "../../../../lib/axios";
+import { formatDate } from "../../../../utils/formatter";
+
+interface IssuesSingle {
+  title: string
+  body: string
+  created_at: string
+  html_url: string
+  login: string
+  comments: number
+}
 
 export function IssuesSingle() {
   const params = useParams()
-
   const { id } = params
+
+  const [ issueSingleData, setIssueSingleData ] = useState({} as IssuesSingle)
+
+  async function fetchIssueSingleData() {
+    const response = await apiGithubIssues.get(`https://api.github.com/repos/GabrielRSiqueira18/github-blog-desafio-3/issues/${id}`)
+    
+    const { title, body, created_at, html_url, user: { login }, comments } = response.data
+    setIssueSingleData({title, body, created_at, html_url,login, comments})
+  }
+
+  useEffect(() => {
+    fetchIssueSingleData()
+  }, [])
   
+  let date
+  let formattedCreatedAt
+
+  if(issueSingleData.created_at) {
+    date = new Date(issueSingleData.created_at)
+  
+    formattedCreatedAt = formatDate(date)
+  }
+  
+
+
   return (
     <IssuesSingleContainer>
       <TitleContainerIssueSingle>
@@ -17,34 +52,32 @@ export function IssuesSingle() {
             <FontAwesomeIcon icon={faChevronLeft} />
             VOLTAR
           </Link>
-          <Link to={"/"}>
+          <a target="_blank" href={issueSingleData.html_url}>
             VER NO GITHUB
             <FontAwesomeIcon icon={faArrowUpRightFromSquare}/>
-          </Link>
+          </a>
         </MenuTitleIssueSingle>
         <TitleContentIssuesSingle>
-          <h2>JavaScript data types and data structures</h2>
+          <h2>{issueSingleData.title}</h2>
           <section>
             <span>
               <FontAwesomeIcon icon={faGithub} />
-              cameronwll
+              {issueSingleData.login}
             </span>
             <span>
               <FontAwesomeIcon icon={faCalendarDay} />
-              Há 1 dia
+              {formattedCreatedAt ? formattedCreatedAt : "Aguarde"}
             </span>
             <span>
               <FontAwesomeIcon icon={faComment} />
-              5 comentários
+              {issueSingleData.comments} comentários
             </span>
           </section>
         </TitleContentIssuesSingle>
       </TitleContainerIssueSingle>
       <IssuesMainContent>
         <p>
-          Programming languages all have built-in data structures, but these often differ from one language to another. This article attempts to list the built-in data structures available in JavaScript and what properties they have. These can be used to build other data structures. Wherever possible, comparisons with other languages are drawn.
-          Dynamic typing
-          JavaScript is a loosely typed and dynamic language. Variables in JavaScript are not directly associated with any particular value type, and any variable can be assigned (and re-assigned) values of all types:
+          {issueSingleData.body}
         </p>
       </IssuesMainContent>
     </IssuesSingleContainer>
